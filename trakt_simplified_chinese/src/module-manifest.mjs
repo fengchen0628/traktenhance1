@@ -1,5 +1,5 @@
-const REPOSITORY_URL = "https://github.com/DemoJameson/Proxy.Modules";
-const RAW_BASE_URL = "https://raw.githubusercontent.com/DemoJameson/Proxy.Modules/main";
+const REPOSITORY_URL = "https://github.com/fengchen0628/traktenhance1";
+const RAW_BASE_URL = "https://raw.githubusercontent.com/fengchen0628/traktenhance1/main";
 const TRAKT_MODULE_PATH = "trakt_simplified_chinese";
 const TRAKT_SCRIPT_FILE = "trakt_simplified_chinese.js";
 const TRAKT_SCRIPT_TITLE = "Trakt增强";
