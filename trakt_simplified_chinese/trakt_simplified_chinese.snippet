@@ -1,36 +1,36 @@
 #!name=Trakt 增强
 #!desc=Trakt App 各页面从英文改为简体中文或港台繁体，包括海报；历史页面剧集类别的已观看记录按电视剧合并；Trakt 的影片详情页添加 Forward、Infuse、Rex 跳转按钮；部分兼容其它使用了 Trakt API 的应用。
-#!icon=https://raw.githubusercontent.com/DemoJameson/Proxy.Modules/main/trakt_simplified_chinese/images/trakt.webp
-#!homepage=https://github.com/DemoJameson/Proxy.Modules
+#!icon=https://raw.githubusercontent.com/fengchen0628/traktenhance1/main/trakt_simplified_chinese/images/trakt.webp
+#!homepage=https://github.com/fengchen0628/traktenhance1
 #!author=DemoJameson
-#!updatedTime=2026-10-30 13:00:31
+#!updatedTime=2026-11-19 16:23:52
 
 # [rewrite_remote]
 # 篡改第三方 App 的 Trakt OAuth 设备码与 token 请求（api/auth/web 三域名合并）
-^https:\/\/(?:apiz?\.trakt\.tv|auth\.trakt\.tv|trakt\.tv)\/oauth\/(?:device\/code|device\/token|token)(?:\?.*)?$ url script-request-body https://raw.githubusercontent.com/DemoJameson/Proxy.Modules/main/trakt_simplified_chinese/trakt_simplified_chinese.js
+^https:\/\/(?:apiz?\.trakt\.tv|auth\.trakt\.tv|trakt\.tv)\/oauth\/(?:device\/code|device\/token|token)(?:\?.*)?$ url script-request-body https://raw.githubusercontent.com/fengchen0628/traktenhance1/main/trakt_simplified_chinese/trakt_simplified_chinese.js
 # 替换第三方 App 的 Trakt 授权地址（trakt.tv / auth.trakt.tv 合并）
-^https:\/\/(?:auth\.)?trakt\.tv\/oauth\/authorize(?:\?.*)?$ url script-request-header https://raw.githubusercontent.com/DemoJameson/Proxy.Modules/main/trakt_simplified_chinese/trakt_simplified_chinese.js
+^https:\/\/(?:auth\.)?trakt\.tv\/oauth\/authorize(?:\?.*)?$ url script-request-header https://raw.githubusercontent.com/fengchen0628/traktenhance1/main/trakt_simplified_chinese/trakt_simplified_chinese.js
 # 将 Trakt 官方授权回调还原为第三方 App 回调（trakt.tv / auth.trakt.tv 合并）
-^https:\/\/(?:auth\.)?trakt\.tv\/api\/auth\/oauth2\/authorize(?:\?.*)?$ url script-response-header https://raw.githubusercontent.com/DemoJameson/Proxy.Modules/main/trakt_simplified_chinese/trakt_simplified_chinese.js
+^https:\/\/(?:auth\.)?trakt\.tv\/api\/auth\/oauth2\/authorize(?:\?.*)?$ url script-response-header https://raw.githubusercontent.com/fengchen0628/traktenhance1/main/trakt_simplified_chinese/trakt_simplified_chinese.js
 # 记录篡改流程签发的设备码与 access/refresh token（auth/web 合并，api 由响应路由器处理）
-^https:\/\/(?:auth\.trakt\.tv|trakt\.tv)\/oauth\/(?:device\/code|device\/token|token)(?:\?.*)?$ url script-response-body https://raw.githubusercontent.com/DemoJameson/Proxy.Modules/main/trakt_simplified_chinese/trakt_simplified_chinese.js
+^https:\/\/(?:auth\.trakt\.tv|trakt\.tv)\/oauth\/(?:device\/code|device\/token|token)(?:\?.*)?$ url script-response-body https://raw.githubusercontent.com/fengchen0628/traktenhance1/main/trakt_simplified_chinese/trakt_simplified_chinese.js
 # 处理播放器 DeepLink 跳转
-^https:\/\/proxy-modules\.demojameson\.de5\.net\/api\/redirect\?.*$ url script-request-header https://raw.githubusercontent.com/DemoJameson/Proxy.Modules/main/trakt_simplified_chinese/trakt_simplified_chinese.js
+^https:\/\/proxy-modules\.demojameson\.de5\.net\/api\/redirect\?.*$ url script-request-header https://raw.githubusercontent.com/fengchen0628/traktenhance1/main/trakt_simplified_chinese/trakt_simplified_chinese.js
 # SofaTime 中自定义播放器 Logo
-^https:\/\/image\.tmdb\.org\/t\/p\/w342\/[a-z0-9_-]+_logo\.webp(?:\?.*)?$ url script-request-header https://raw.githubusercontent.com/DemoJameson/Proxy.Modules/main/trakt_simplified_chinese/trakt_simplified_chinese.js
+^https:\/\/image\.tmdb\.org\/t\/p\/w342\/[a-z0-9_-]+_logo\.webp(?:\?.*)?$ url script-request-header https://raw.githubusercontent.com/fengchen0628/traktenhance1/main/trakt_simplified_chinese/trakt_simplified_chinese.js
 # 拦截 sync/history/episodes 请求，放大 limit
-^https:\/\/apiz?\.trakt\.tv\/sync\/history\/episodes\/?(\?.*)?$ url script-request-header https://raw.githubusercontent.com/DemoJameson/Proxy.Modules/main/trakt_simplified_chinese/trakt_simplified_chinese.js
+^https:\/\/apiz?\.trakt\.tv\/sync\/history\/episodes\/?(\?.*)?$ url script-request-header https://raw.githubusercontent.com/fengchen0628/traktenhance1/main/trakt_simplified_chinese/trakt_simplified_chinese.js
 # 拦截 history/episodes 请求，放大 limit
-^https:\/\/apiz?\.trakt\.tv\/users\/[^\/]+?\/history\/episodes\/?(\?.*)?$ url script-request-header https://raw.githubusercontent.com/DemoJameson/Proxy.Modules/main/trakt_simplified_chinese/trakt_simplified_chinese.js
+^https:\/\/apiz?\.trakt\.tv\/users\/[^\/]+?\/history\/episodes\/?(\?.*)?$ url script-request-header https://raw.githubusercontent.com/fengchen0628/traktenhance1/main/trakt_simplified_chinese/trakt_simplified_chinese.js
 # 拦截带季号的请求，记录当前浏览季
-^https:\/\/apiz?\.trakt\.tv\/shows\/[^\/]+\/seasons\/\d+(?:\/.*|\?.*)?$ url script-request-header https://raw.githubusercontent.com/DemoJameson/Proxy.Modules/main/trakt_simplified_chinese/trakt_simplified_chinese.js
+^https:\/\/apiz?\.trakt\.tv\/shows\/[^\/]+\/seasons\/\d+(?:\/.*|\?.*)?$ url script-request-header https://raw.githubusercontent.com/fengchen0628/traktenhance1/main/trakt_simplified_chinese/trakt_simplified_chinese.js
 # 按篡改流程签发的 access token 改写 trakt-api-key
-^https:\/\/apiz?\.trakt\.tv\/(?!oauth\/).*$ url script-request-header https://raw.githubusercontent.com/DemoJameson/Proxy.Modules/main/trakt_simplified_chinese/trakt_simplified_chinese.js
+^https:\/\/apiz?\.trakt\.tv\/(?!oauth\/).*$ url script-request-header https://raw.githubusercontent.com/fengchen0628/traktenhance1/main/trakt_simplified_chinese/trakt_simplified_chinese.js
 # 统一拦截 Trakt 响应，由脚本内部分流处理
-^https:\/\/apiz?\.trakt\.tv\/.*$ url script-response-body https://raw.githubusercontent.com/DemoJameson/Proxy.Modules/main/trakt_simplified_chinese/trakt_simplified_chinese.js
+^https:\/\/apiz?\.trakt\.tv\/.*$ url script-response-body https://raw.githubusercontent.com/fengchen0628/traktenhance1/main/trakt_simplified_chinese/trakt_simplified_chinese.js
 # 仅拦截 SofaTime 的 TMDB provider 列表，注入播放器
-^https:\/\/api\.themoviedb\.org\/3\/watch\/providers\/(?:movie|tv)(\?.*)?$ url script-response-body https://raw.githubusercontent.com/DemoJameson/Proxy.Modules/main/trakt_simplified_chinese/trakt_simplified_chinese.js
+^https:\/\/api\.themoviedb\.org\/3\/watch\/providers\/(?:movie|tv)(\?.*)?$ url script-response-body https://raw.githubusercontent.com/fengchen0628/traktenhance1/main/trakt_simplified_chinese/trakt_simplified_chinese.js
 # 仅拦截 SofaTime 的 TMDB 详情请求（append_to_response 含 watch/providers），清除原有观看来源并注入排序 1 播放器
-^https:\/\/api\.themoviedb\.org\/3\/(?:tv|movie)\/\d+\?.*watch(?:%2F|\/)providers.*$ url script-response-body https://raw.githubusercontent.com/DemoJameson/Proxy.Modules/main/trakt_simplified_chinese/trakt_simplified_chinese.js
+^https:\/\/api\.themoviedb\.org\/3\/(?:tv|movie)\/\d+\?.*watch(?:%2F|\/)providers.*$ url script-response-body https://raw.githubusercontent.com/fengchen0628/traktenhance1/main/trakt_simplified_chinese/trakt_simplified_chinese.js
 # [mitm]
 hostname = apiz.trakt.tv, api.trakt.tv, auth.trakt.tv, trakt.tv, api.themoviedb.org, image.tmdb.org, proxy-modules.demojameson.de5.net
